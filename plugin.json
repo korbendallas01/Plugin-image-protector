@@ -1,0 +1,311 @@
+{
+	"name": "Image Protector",
+	"version": "1.1.10",
+	"description": "Safeguards to help prevent image copying and sharing.",
+	"demo": "http://koken.me",
+	"author": {
+		"name": "Koken",
+		"link": "https://store.koken.me/authors/koken"
+	},
+
+	"koken_version_required": "0.16.3-beta.1",
+
+	"data": {
+		"robots": {
+			"header": "Search engines",
+			"type": "select",
+			"info": "Prevents site images from appearing in Google, Bing, Yahoo and Picsearch image search results. You may block all site images, block image sizes at or above a particular dimension, or turn blocking off by allowing search engines to index all images.",
+			"options": [
+				{ "value": "allow", "label": "Allow all images" },
+				{ "value": "block", "label": "Block all images" },
+				{ "value": "medium", "label": "Block 480px and larger" },
+				{ "value": "medium_large", "label": "Block 800px and larger" },
+				{ "value": "large", "label": "Block 1024px and larger" },
+				{ "value": "xlarge", "label": "Block 1600px and larger" },
+				{ "value": "huge", "label": "Block 2048px only" }
+			],
+			"value": "medium_large"
+		},
+		"pinterest": {
+			"header": "Pinterest",
+			"label": "Disallow pinning to Pinterest",
+			"info": "Prevents site visitors from pinning site images to Pinterest.com.",
+			"value": true,
+			"type": "boolean"
+		},
+		"pinterest_msg": {
+			"label": "Pinterest block message",
+			"info": "Displayed if pinning is disallowed and site visitors attempt to pin an image.",
+			"type": "string",
+			"value": "Sorry, pinning of images is not permitted.",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "pinterest",
+						"equals": true
+					}
+				]
+			}
+		},
+		"overlay": {
+			"header": "Images",
+			"label": "Disallow right-click, drag-and-drop",
+			"value": true,
+			"info": "Protects images by disallowing a browser's right-click menu and ability to drag-and-drop images to the desktop.",
+			"type": "boolean"
+		},
+		"overlayMinSize": {
+			"label": "Minimum image size",
+			"info": "Minimum image preset size that will disallow right-click and drag-and-drop.",
+			"type": "select",
+			"options": [
+				{ "value": "all", "label": "All images" },
+				{ "value": "480", "label": "480px and larger" },
+				{ "value": "800", "label": "800px and larger" },
+				{ "value": "1024", "label": "1024px and larger" },
+				{ "value": "1600", "label": "1600px and larger" },
+				{ "value": "2048", "label": "2048px only" }
+			],
+			"value": "800",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					}
+				]
+			}
+		},
+		"public": {
+			"header": "",
+			"label": "Safeguard public images only",
+			"info": "Apply protection only to images visibile to search engines and the general public. Unlisted site images are not affected.",
+			"type": "boolean",
+			"value": true,
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					}
+				]
+			}
+		},
+		"menu": {
+			"header": "Right-click",
+			"label": "Display copyright",
+			"value": true,
+			"info": "Displays a small copyright message when site images are right-clicked.",
+			"type": "boolean",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					}
+				]
+			}
+		},
+		"copyright": {
+			"label": "Copyright",
+			"value": "All rights reserved",
+			"placeholder": "Insert copyright",
+			"info": "The copyright text displayed in the message.",
+			"type": "string",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					}
+				]
+			}
+		},
+		"copyright_prepend_symbol": {
+			"label": "Prepend copyright with ©",
+			"type": "boolean",
+			"value": true,
+			"info": "Displays a copyright symbol to the left of your message copyright.",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					}
+				]
+			}
+		},
+		"custom_message": {
+			"label": "Copyright custom text",
+			"info": "Displays an additional message underneath the copyright.",
+			"type": "string",
+			"placeholder": "Insert custom text for underneath copyright",
+			"value": "",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					}
+				]
+			}
+		},
+		"appearance": {
+			"label": "Copyright style",
+			"info": "Color of the right-click copyright. When set to Auto, Light or Dark is applied automatically dependending on page color. You may force Light or Dark, or apply your own style by selecting Custom.",
+			"type": "select",
+			"options": [
+				{ "value": "auto", "label": "Auto" },
+				{ "value": "light", "label": "Light" },
+				{ "value": "dark", "label": "Dark" },
+				{ "value": "custom", "label": "Custom" }
+			],
+			"value": "auto",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					}
+				]
+			}
+		},
+		"message_size": {
+			"label": "Font size",
+			"type": "slider",
+			"value": 11,
+			"min": 9,
+			"max": 24,
+			"suffix": "px",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					},
+					{
+						"option": "appearance",
+						"equals": "custom"
+					}
+				]
+			}
+		},
+		"bgcolor": {
+			"label": "Background color",
+			"type": "color",
+			"value": "#ffffff",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					},
+					{
+						"option": "appearance",
+						"equals": "custom"
+					}
+				]
+			}
+		},
+		"textcolor": {
+			"label": "Text color",
+			"type": "color",
+			"value": "#000000",
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					},
+					{
+						"option": "appearance",
+						"equals": "custom"
+					}
+				]
+			}
+		},
+		"shadow": {
+			"label": "Drop shadow",
+			"type": "boolean",
+			"value": true,
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					},
+					{
+						"option": "appearance",
+						"equals": "custom"
+					}
+				]
+			}
+		},
+		"radius": {
+			"label": "Radius corners",
+			"type": "boolean",
+			"value": true,
+			"dependencies": {
+				"evaluate": "all",
+				"conditions": [
+					{
+						"option": "overlay",
+						"equals": true
+					},
+					{
+						"option": "menu",
+						"equals": true
+					},
+					{
+						"option": "appearance",
+						"equals": "custom"
+					}
+				]
+			}
+		}
+	}
+}
